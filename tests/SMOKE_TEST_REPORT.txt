@@ -1,0 +1,28 @@
+CBK Vehicle Meta Studio v3.1 — Smoke Test Report
+Date: 2026-09-06
+
+PASS — JavaScript syntax: app.js
+PASS — JavaScript syntax: reference-data.js
+PASS — Embedded reference database: 248 handling records / 16 vehicles records
+PASS — Supplied OpenIV base handling.meta parses as CHandlingDataMgr
+PASS — Supplied OpenIV base vehicles.meta parses as CVehicleModelInfo__InitDataList
+PASS — Supplied OpenIV references produce zero hard diagnostic errors
+PASS — Rockstar exception handling: traction max/min inversion and equal suspension travel are not falsely marked corrupt
+PASS — handling.meta smart editor and SubHandlingData preservation
+PASS — vehicles.meta smart scalar/vector/nested-field editor
+PASS — carvariations direct light/siren/modkit/color-combination editing
+PASS — carcols ID/reference editing
+PASS — contentunlocks starter root verified as SContentUnlocks
+PASS — shop_vehicle starter root verified as ShopVehicleDataArray
+PASS — current dlctext manifest type is TEXTFILE_METAFILE; legacy DLC_TEXT_FILE is accepted/preserved
+PASS — wildcard manifest matching: data/**/handling.meta covers data/handling.meta and nested folders
+PASS — resource manifest merge does not remove unrelated scripts/dependencies
+PASS — advanced vfxvehicleinfo.meta / vehiclemodelsets.meta / vehicleextras.dat are import/edit-only rather than generated from guessed structures
+PASS — vehiclemodelsets.meta gets a compatibility-risk warning
+PASS — built-in ZIP writer round-trip with manifest + handling.meta + binary YFT
+PASS — page runtime under headless Chromium via Playwright: zero page errors
+
+Notes:
+- The app distinguishes hard-invalid values from empirical GTA-reference outliers.
+- The supplied OpenIV vehicles sample references handling IDs not all present in the supplied handling extract; these remain warnings, not false hard errors.
+- Static metadata validation cannot inspect YFT/YTD internal geometry/bones/material correctness. The app verifies resource presence/naming and metadata relationships, then the resource must still be game-tested.

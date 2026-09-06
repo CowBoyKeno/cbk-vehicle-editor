@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CHandlingDataMgr>
+  <HandlingData>
+    <Item type="CHandlingData">
+      <handlingName>TESTCAR</handlingName>
+      <fMass value="1900.000000" />
+      <fDriveBiasFront value="0.500000" />
+      <nInitialDriveGears value="8" />
+      <fInitialDriveForce value="0.330000" />
+      <fTractionCurveMax value="2.700000" />
+      <fTractionCurveMin value="2.500000" />
+      <fSuspensionUpperLimit value="0.100000" />
+      <fSuspensionLowerLimit value="-0.120000" />
+      <CustomPreservedTag value="123.456" />
+      <SubHandlingData>
+        <Item type="CCarHandlingData">
+          <fBackEndPopUpCarImpulseMult value="0.100000" />
+          <fToeFront value="0.010000" />
+        </Item>
+        <Item type="NULL" />
+        <Item type="NULL" />
+      </SubHandlingData>
+    </Item>
+  </HandlingData>
+</CHandlingDataMgr>

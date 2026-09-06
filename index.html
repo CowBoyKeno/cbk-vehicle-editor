@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b1017" />
+  <title>CBK Vehicle Meta Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">CBK</div>
+      <div>
+        <h1>CBK Vehicle Meta Studio <span class="version">v3.1</span></h1>
+        <p>Build, edit, validate and repair FiveM / GTA V vehicle metadata resources.</p>
+      </div>
+    </div>
+    <div class="toolbar">
+      <label class="button primary">Import resource ZIP<input id="zipInput" type="file" accept=".zip,application/zip" hidden></label>
+      <label class="button">Import resource folder<input id="folderInput" type="file" webkitdirectory multiple hidden></label>
+      <label class="button">Import files<input id="fileInput" type="file" multiple accept=".meta,.xml,.dat,.lua,.txt,.json,.cfg,.ini" hidden></label>
+      <button id="newProjectBtn">New project</button>
+      <button id="exportCurrentBtn">Export current</button>
+      <button id="exportZipBtn" class="success">Build resource ZIP</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="left-panel card">
+      <div class="project-title-row">
+        <div>
+          <small>PROJECT</small>
+          <input id="projectName" value="cbk_vehicle" maxlength="64" aria-label="Project name" />
+        </div>
+        <span id="projectState" class="pill ok">Ready</span>
+      </div>
+
+      <div class="panel-actions">
+        <button id="addFileBtn">+ Add vehicle file</button>
+        <button id="manifestBtn">Repair / merge manifest</button>
+      </div>
+
+      <div class="file-filter"><input id="fileSearch" placeholder="Filter project files…" autocomplete="off" /></div>
+      <div id="fileList" class="file-list"></div>
+
+      <div class="asset-summary">
+        <div><strong id="assetCount">0</strong><span>binary/stream files detected</span></div>
+        <label><input type="checkbox" id="includeAssets" checked /> Include imported binary/stream files in ZIP</label>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <section class="file-header card">
+        <div>
+          <div class="eyebrow" id="fileCategory">CORE VEHICLE DATA</div>
+          <h2 id="currentFileName">handling.meta</h2>
+          <p id="fileDescription">Vehicle physics, transmission, traction, suspension and damage.</p>
+        </div>
+        <div class="file-header-right">
+          <span id="currentFileType" class="data-type">HANDLING_FILE</span>
+          <span id="dirtyBadge" class="pill warn hidden">Unsaved edit</span>
+        </div>
+      </section>
+
+      <nav class="tabs card" aria-label="Editor tabs">
+        <button class="tab active" data-tab="smart">Smart Editor</button>
+        <button class="tab" data-tab="raw">Raw File</button>
+        <button class="tab" data-tab="diagnostics">Project Diagnostics <span id="diagCount" class="count">0</span></button>
+        <button class="tab" data-tab="builder">Resource Builder</button>
+        <button class="tab" data-tab="reference">GTA Reference</button>
+        <button class="tab" data-tab="guide">File Guide</button>
+      </nav>
+
+      <div id="smartTab" class="tab-panel"></div>
+
+      <section id="rawTab" class="tab-panel card hidden">
+        <div class="raw-toolbar">
+          <div>
+            <strong>Full file editor</strong>
+            <small>XML is parsed before it is accepted. Non-XML files are saved as plain text.</small>
+          </div>
+          <div class="inline-actions">
+            <button id="formatRawBtn">Format XML</button>
+            <button id="applyRawBtn" class="primary">Apply changes</button>
+          </div>
+        </div>
+        <textarea id="rawEditor" spellcheck="false"></textarea>
+        <div id="rawError" class="error-text"></div>
+      </section>
+
+      <section id="diagnosticsTab" class="tab-panel hidden">
+        <div class="diag-toolbar card">
+          <div><strong>Whole-project validation</strong><small>Checks XML structure plus references between handling, vehicles, variations and carcols.</small></div>
+          <button id="runDiagnosticsBtn" class="primary">Run diagnostics</button>
+        </div>
+        <div id="diagnosticsList"></div>
+      </section>
+
+      <section id="builderTab" class="tab-panel card hidden">
+        <h2>FiveM Resource Builder</h2>
+        <p>Generate a manifest from the vehicle data currently loaded in the project, then export the project as a ready-to-drop resource ZIP.</p>
+        <div class="builder-grid">
+          <label>Author<input id="authorInput" value="CowBoyKeno" /></label>
+          <label>Version<input id="versionInput" value="3.1.0" /></label>
+          <label class="wide">Description<input id="descriptionInput" value="Vehicle resource built with CBK Vehicle Meta Studio" /></label>
+        </div>
+        <div class="builder-options">
+          <label><input type="checkbox" id="sslaMode" /> SSLA extended siren IDs (1–65534)</label>
+          <label><input type="checkbox" id="preferGeneratedManifest" /> Replace manifest with generated metadata-only manifest when building</label>
+        </div>
+        <div class="builder-actions">
+          <button id="refreshManifestBtn">Repair / merge fxmanifest.lua</button>
+          <button id="addNamesBtn">Generate vehicle_names.lua</button>
+          <button id="builderZipBtn" class="success">Build resource ZIP</button>
+        </div>
+        <h3>Generated fxmanifest.lua</h3>
+        <textarea id="manifestPreview" readonly spellcheck="false"></textarea>
+        <div class="note">Vehicle metadata is registered with FiveM using <code>data_file</code>. The generator keeps <code>VEHICLE_METADATA_FILE</code> after layout/variation data and only registers file types actually present.</div>
+      </section>
+
+      <section id="referenceTab" class="tab-panel card hidden">
+        <h2>GTA V Reference Lab</h2>
+        <p>Built from the OpenIV handling.meta and vehicles.meta supplied for this project. Use it to compare a custom vehicle against real Rockstar values without overwriting your resource.</p>
+        <div class="reference-toolbar">
+          <input id="referenceSearch" placeholder="Search GTA handling name…" autocomplete="off" />
+          <select id="referenceSelect"></select>
+          <button id="compareReferenceBtn" class="primary">Compare selected handling</button>
+        </div>
+        <div id="referenceSummary"></div>
+      </section>
+
+      <section id="guideTab" class="tab-panel card hidden">
+        <h2>Vehicle data file catalog</h2>
+        <p>The app distinguishes the standard files most vehicle resources use from optional/advanced data files. Every known XML file gets syntax/root validation; the four core files also get cross-file semantic checks.</p>
+        <div id="fileGuide"></div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="addFileDialog">
+    <form method="dialog" class="dialog-card">
+      <div class="dialog-head"><div><h2>Add vehicle data file</h2><p>Create a safe starter file without overwriting anything already loaded.</p></div><button value="cancel" class="icon-btn" aria-label="Close">×</button></div>
+      <div id="templateGrid" class="template-grid"></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="reference-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
