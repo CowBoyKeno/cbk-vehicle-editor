@@ -1,0 +1,50 @@
+CBK Vehicle Meta Studio v4.0 — Smoke / Rename Test Report
+Date: 2026-09-06
+
+PASS — App initializes in headless Chromium document runtime
+PASS — App version is v4.0
+PASS — JavaScript syntax: app.js
+PASS — JavaScript syntax: reference-data.js
+PASS — Embedded GTA reference database: 248 handling records / 16 vehicle records
+PASS — Resource / Spawn Code renamer is available
+PASS — XML formatter correctly handles self-closing GTA tags without progressive indentation
+PASS — Rename preflight produces no hard errors for a valid single-vehicle resource
+PASS — Rename preview includes model, meta-link and stream-file changes
+PASS — Rename applies transactionally
+PASS — vehicles.meta modelName changes to the requested spawn code
+PASS — vehicles.meta txdName changes only when it exactly follows the old spawn code
+PASS — handlingId + handling.meta handlingName stay linked when the handling identifier follows the old spawn code
+PASS — gameName changes only when it exactly follows the old spawn code
+PASS — carvariations.meta modelName updates correctly
+PASS — vehicles.meta txdRelationships child updates when the renamed TXD uses the old spawn code
+PASS — generated vehicle_names.lua exact AddTextEntry vehicle reference updates correctly
+PASS — unrelated client script containing the old spawn string is NOT blanket-renamed
+PASS — old.yft, old_hi.yft and matching old.ytd stream filenames rename correctly
+PASS — resource/project output name changes to the requested resource folder name
+PASS — post-rename diagnostics contain zero hard errors in the valid test resource
+PASS — existing vehicle spawn-code collision blocks rename
+PASS — existing target stream filename collision blocks rename
+PASS — malformed XML blocks rename instead of allowing a partial update
+PASS — shared/custom txdName is preserved and unrelated YTD files are not renamed
+PASS — dependency-free ZIP writer round-trips renamed resource entries and binary YFT data
+PASS — root-level vehicle metadata paths normalize into data/ for rebuilt resources
+PASS — manifest repair rewrites root metadata references to data/ paths
+PASS — legacy __resource.lua manifests are modernized to fxmanifest.lua while preserving external script/runtime directives
+PASS — high matching emergency vehicle light/siren IDs are warnings instead of hard build-blocking errors
+PASS — direct ZIP save picker path is wired before browser-download fallback
+PASS — direct resource-folder export is wired for Edge/Chrome File System Access API
+
+Additional retained v3.1 coverage:
+PASS — handling.meta Smart Editor and SubHandlingData preservation
+PASS — vehicles.meta scalar/vector/nested-field editing
+PASS — carvariations light/siren/modkit/color editing
+PASS — carcols ID/reference editing
+PASS — manifest merge preserves unrelated scripts/dependencies
+PASS — wildcard manifest coverage handling
+PASS — advanced metadata files remain import/edit-only when blank generation would be unsafe
+PASS — GTA hard-invalid checks remain separate from empirical outlier warnings
+
+Notes:
+- Rename behavior is intentionally reference-aware rather than a global string replacement.
+- The app cannot edit server.cfg or references located in other resources unless those files are part of the imported project; resource-name changes therefore display an external-reference warning.
+- Static metadata tools cannot rename or validate arbitrary internal 3D geometry/bone/material identifiers inside YFT/YTD binaries. The resource should still be game-tested after editing.
