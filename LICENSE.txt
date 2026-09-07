@@ -1,9 +1,0 @@
-CBK Vehicle Editor
-Copyright (c) CowBoyKeno. All rights reserved.
-
-This protected distribution is licensed for use only by authorized recipients.
-Redistribution, resale, deobfuscation, reverse engineering, or extraction of
-source code is not permitted without prior written permission from CowBoyKeno.
-
-Browser-delivered JavaScript cannot be made impossible to copy. This package is
-minified and obfuscated to deter casual inspection and unauthorized modification.
